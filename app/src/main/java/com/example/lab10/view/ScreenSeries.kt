@@ -103,21 +103,21 @@ fun ContenidoSeriesListado(navController: NavHostController, servicio: SerieApiS
 
 @Composable
 fun ContenidoSerieEditar(navController: NavHostController, servicio: SerieApiService, pid: Int = 0 ) {
-    var id by remember { mutableStateOf<Int>(pid) }
-    var name by remember { mutableStateOf<String?>("") }
-    var release_date by remember { mutableStateOf<String?>("") }
-    var rating by remember { mutableStateOf<String?>("") }
-    var category by remember { mutableStateOf<String?>("") }
+    var id by remember { mutableStateOf(pid) }
+    var name by remember { mutableStateOf("") }
+    var release_date by remember { mutableStateOf("") }
+    var rating by remember { mutableStateOf("0") }
+    var category by remember { mutableStateOf("") }
     var grabar by remember { mutableStateOf(false) }
 
     if (id != 0) {
         LaunchedEffect(Unit) {
             val objSerie = servicio.selectSerie(id.toString())
             delay(100)
-            name = objSerie.body()?.name
-            release_date = objSerie.body()?.release_date
-            rating = objSerie.body()?.rating.toString()
-            category = objSerie.body()?.category
+            name = objSerie.body()?.name ?: ""
+            release_date = objSerie.body()?.release_date ?: ""
+            rating = objSerie.body()?.rating?.toString() ?: "0"
+            category = objSerie.body()?.category ?: ""
         }
     }
 
@@ -135,25 +135,25 @@ fun ContenidoSerieEditar(navController: NavHostController, servicio: SerieApiSer
             singleLine = true
         )
         TextField(
-            value = name!!,
+            value = name,
             onValueChange = { name = it },
             label = { Text("Name: ") },
             singleLine = true
         )
         TextField(
-            value = release_date!!,
+            value = release_date,
             onValueChange = { release_date = it },
             label = { Text("Release Date:") },
             singleLine = true
         )
         TextField(
-            value = rating!!,
-            onValueChange = { rating = it },
+            value = rating,
+            onValueChange = { rating = it.filter { ch -> ch.isDigit() } },
             label = { Text("Rating:") },
             singleLine = true
         )
         TextField(
-            value = category!!,
+            value = category,
             onValueChange = { category = it },
             label = { Text("Category:") },
             singleLine = true
@@ -168,7 +168,8 @@ fun ContenidoSerieEditar(navController: NavHostController, servicio: SerieApiSer
     }
 
     if (grabar) {
-        val objSerie = SerieModel(id,name!!, release_date!!, rating!!.toInt(), category!!)
+        val ratingInt = rating.toIntOrNull() ?: 0
+        val objSerie = SerieModel(id, name.trim(), release_date.trim(), ratingInt, category.trim())
         LaunchedEffect(Unit) {
             if (id == 0)
                 servicio.insertSerie(objSerie)

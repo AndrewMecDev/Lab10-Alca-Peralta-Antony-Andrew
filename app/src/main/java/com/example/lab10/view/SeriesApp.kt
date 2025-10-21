@@ -89,21 +89,30 @@ fun BarraSuperior() {
 
 @Composable
 fun BarraInferior(navController: NavHostController) {
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
     NavigationBar(
         containerColor = Color.LightGray
     ) {
         NavigationBarItem(
             icon = { Icon(Icons.Outlined.Home, contentDescription = "Inicio") },
             label = { Text("Inicio") },
-            selected = navController.currentDestination?.route == "inicio",
+            selected = currentRoute == "inicio",
             onClick = { navController.navigate("inicio") }
         )
         NavigationBarItem(
             icon = { Icon(Icons.Outlined.Favorite, contentDescription = "Series") },
             label = { Text("Series") },
-            selected = navController.currentDestination?.route == "series",
+            selected = currentRoute == "series",
             onClick = { navController.navigate("series") }
         )
+    }
+}
+
+@Composable
+fun ScreenInicio() {
+    Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Text(text = "Bienvenido a Series App")
     }
 }
 
@@ -140,3 +149,4 @@ fun Contenido(
         }
     }
 }
+
