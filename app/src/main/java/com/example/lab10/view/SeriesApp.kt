@@ -20,10 +20,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -34,6 +36,11 @@ import androidx.navigation.navArgument
 import com.example.lab10.data.SerieApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextAlign.Companion.Center
+
+
 
 @Composable
 fun SeriesApp() {
@@ -111,8 +118,8 @@ fun BarraInferior(navController: NavHostController) {
 
 @Composable
 fun ScreenInicio() {
-    Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text(text = "Bienvenido a Series App")
+    Box(modifier = Modifier.fillMaxSize().padding(16.dp), contentAlignment = Alignment.Center) {
+        Text(text = "Bienvenido a Series App - Andrew Alca", fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
     }
 }
 
